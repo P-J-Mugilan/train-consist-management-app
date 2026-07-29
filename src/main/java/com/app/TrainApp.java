@@ -1,5 +1,6 @@
 package com.app;
 
+import com.app.exception.CargoSafetyException;
 import com.app.exception.InvalidCapacityException;
 import com.app.model.Bogie;
 import com.app.model.GoodsBogie;
@@ -63,6 +64,9 @@ public class TrainApp {
 
         // UC14: Handle Invalid Bogie Capacity (Custom Exception)
         runUC14();
+
+        // UC15: Safe Cargo Assignment Using try-catch-finally
+        runUC15();
     }
 
     public static void runUC1() {
@@ -367,5 +371,36 @@ public class TrainApp {
         }
         
         System.out.println("Consist Bogie list after exception validation: " + consist);
+    }
+
+    public static void runUC15() {
+        System.out.println("\n--- UC15: Safe Cargo Assignment Using try-catch-finally ---");
+        GoodsBogie rectangularBogie = new GoodsBogie("GB104", "Boxcar", "Rectangular", 120, "Coal");
+        System.out.println("Initial Bogie: " + rectangularBogie);
+        
+        // 1. Assign safe cargo
+        try {
+            System.out.println("Assigning 'Grain' to Rectangular bogie...");
+            rectangularBogie.assignCargo("Grain");
+            System.out.println("Assignment successful. Updated Bogie: " + rectangularBogie);
+        } catch (CargoSafetyException e) {
+            System.out.println("Safety violation caught: " + e.getMessage());
+        } finally {
+            System.out.println("[Finally Block] Logging: Cargo assignment transaction (Safe check) completed.");
+        }
+        
+        // 2. Assign unsafe cargo (Petroleum to Rectangular)
+        try {
+            System.out.println("\nAssigning 'Petroleum' to Rectangular bogie...");
+            rectangularBogie.assignCargo("Petroleum");
+            System.out.println("Assignment successful. Updated Bogie: " + rectangularBogie);
+        } catch (CargoSafetyException e) {
+            System.out.println("Safety violation caught: " + e.getMessage());
+        } finally {
+            System.out.println("[Finally Block] Logging: Cargo assignment transaction (Unsafe check) completed.");
+        }
+        
+        System.out.println("\nFinal Bogie state: " + rectangularBogie);
+        System.out.println("Application continues executing safely after transaction logic.");
     }
 }
