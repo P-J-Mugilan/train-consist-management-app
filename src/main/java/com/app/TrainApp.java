@@ -6,6 +6,7 @@ import com.app.model.Bogie;
 import com.app.model.GoodsBogie;
 import com.app.model.PassengerBogie;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -67,6 +68,9 @@ public class TrainApp {
 
         // UC15: Safe Cargo Assignment Using try-catch-finally
         runUC15();
+
+        // UC16: Sort Passenger Bogies by Capacity (Bubble Sort)
+        runUC16();
     }
 
     public static void runUC1() {
@@ -402,5 +406,26 @@ public class TrainApp {
         
         System.out.println("\nFinal Bogie state: " + rectangularBogie);
         System.out.println("Application continues executing safely after transaction logic.");
+    }
+
+    public static void runUC16() {
+        System.out.println("\n--- UC16: Sort Passenger Bogies by Capacity (Bubble Sort) ---");
+        int[] capacities = {72, 56, 24, 100, 80};
+        System.out.println("Unsorted Capacities: " + Arrays.toString(capacities));
+        
+        // Manual Bubble Sort
+        int n = capacities.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (capacities[j] > capacities[j + 1]) {
+                    // Swap capacities[j] and capacities[j+1]
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+        
+        System.out.println("Sorted Capacities (Bubble Sort): " + Arrays.toString(capacities));
     }
 }
