@@ -55,6 +55,9 @@ public class TrainApp {
 
         // UC12: Safety Compliance Check for Goods Bogies
         runUC12();
+
+        // UC13: Performance Comparison (Loops vs Streams)
+        runUC13();
     }
 
     public static void runUC1() {
@@ -290,12 +293,47 @@ public class TrainApp {
     }
     
     private static boolean checkSafety(List<GoodsBogie> train) {
-        // Cylindrical -> only Petroleum allowed.
         return train.stream().allMatch(b -> {
             if (b.getType().equalsIgnoreCase("Cylindrical")) {
                 return b.getCargoType().equalsIgnoreCase("Petroleum");
             }
             return true;
         });
+    }
+
+    public static void runUC13() {
+        System.out.println("\n--- UC13: Performance Comparison (Loops vs Streams) ---");
+        
+        // Create a large dataset of bogies (50,000 items)
+        List<Bogie> largeBogieList = new ArrayList<>();
+        for (int i = 0; i < 50000; i++) {
+            largeBogieList.add(new Bogie("BG" + i, "Bogie_" + i, (i % 2 == 0 ? "Passenger" : "Goods"), (i % 150)));
+        }
+        
+        System.out.println("Initialized test dataset with " + largeBogieList.size() + " bogies.");
+        
+        // 1. Loop-based processing
+        long startTimeLoop = System.nanoTime();
+        List<Bogie> loopFiltered = new ArrayList<>();
+        for (Bogie b : largeBogieList) {
+            if (b.getCapacity() > 100) {
+                loopFiltered.add(b);
+            }
+        }
+        long endTimeLoop = System.nanoTime();
+        long durationLoop = endTimeLoop - startTimeLoop;
+        
+        // 2. Stream-based processing
+        long startTimeStream = System.nanoTime();
+        List<Bogie> streamFiltered = largeBogieList.stream()
+                .filter(b -> b.getCapacity() > 100)
+                .collect(Collectors.toList());
+        long endTimeStream = System.nanoTime();
+        long durationStream = endTimeStream - startTimeStream;
+        
+        System.out.println("Loop-Based Filter Duration: " + durationLoop + " ns (" + (durationLoop / 1_000_000.0) + " ms)");
+        System.out.println("Stream-Based Filter Duration: " + durationStream + " ns (" + (durationStream / 1_000_000.0) + " ms)");
+        System.out.println("Filtered Count: " + loopFiltered.size() + " (Streams: " + streamFiltered.size() + ")");
+        System.out.println("Benchmarking complete.");
     }
 }
