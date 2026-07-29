@@ -40,6 +40,9 @@ public class TrainApp {
 
         // UC8: Filter Passenger Bogies Using Streams
         runUC8();
+
+        // UC9: Group Bogies by Type (Collectors.groupingBy)
+        runUC9();
     }
 
     public static void runUC1() {
@@ -183,5 +186,26 @@ public class TrainApp {
                 .collect(Collectors.toList());
         
         System.out.println("Filtered Bogies (Capacity > 60): " + filteredBogies);
+    }
+
+    public static void runUC9() {
+        System.out.println("\n--- UC9: Group Bogies by Type (Collectors.groupingBy) ---");
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("BG101", "Sleeper", "Passenger", 72));
+        bogies.add(new Bogie("BG102", "AC Chair", "Passenger", 56));
+        bogies.add(new Bogie("BG103", "First Class", "Passenger", 24));
+        bogies.add(new Bogie("BG104", "Rectangular Cargo", "Goods", 120));
+        bogies.add(new Bogie("BG105", "Cylindrical Tanker", "Goods", 150));
+        
+        System.out.println("All Bogies list: " + bogies);
+        
+        // Group by type
+        Map<String, List<Bogie>> groupedBogies = bogies.stream()
+                .collect(Collectors.groupingBy(Bogie::getType));
+        
+        // Print grouped structure
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("Type: " + entry.getKey() + " | Bogies: " + entry.getValue());
+        }
     }
 }
