@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TrainApp {
 
@@ -36,6 +37,9 @@ public class TrainApp {
 
         // UC7: Sort Bogies by Capacity (Comparator)
         runUC7();
+
+        // UC8: Filter Passenger Bogies Using Streams
+        runUC8();
     }
 
     public static void runUC1() {
@@ -162,5 +166,22 @@ public class TrainApp {
         passengerBogies.sort(Comparator.comparingInt(Bogie::getCapacity));
         
         System.out.println("After Sorting by Capacity (Ascending): " + passengerBogies);
+    }
+
+    public static void runUC8() {
+        System.out.println("\n--- UC8: Filter Passenger Bogies Using Streams ---");
+        List<Bogie> passengerBogies = new ArrayList<>();
+        passengerBogies.add(new Bogie("BG101", "Sleeper", "Passenger", 72));
+        passengerBogies.add(new Bogie("BG102", "AC Chair", "Passenger", 56));
+        passengerBogies.add(new Bogie("BG103", "First Class", "Passenger", 24));
+        
+        System.out.println("All Bogies: " + passengerBogies);
+        
+        // Filter bogies capacity > 60 using Stream pipeline
+        List<Bogie> filteredBogies = passengerBogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+        
+        System.out.println("Filtered Bogies (Capacity > 60): " + filteredBogies);
     }
 }
