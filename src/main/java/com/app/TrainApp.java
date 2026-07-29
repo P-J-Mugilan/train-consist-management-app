@@ -77,6 +77,9 @@ public class TrainApp {
 
         // UC18: Linear Search for Bogie ID (Array-Based Searching)
         runUC18();
+
+        // UC19: Binary Search for Bogie ID (Optimized Searching)
+        runUC19();
     }
 
     public static void runUC1() {
@@ -477,5 +480,52 @@ public class TrainApp {
             }
         }
         return -1; // Not found
+    }
+
+    public static void runUC19() {
+        System.out.println("\n--- UC19: Binary Search for Bogie ID (Optimized Searching) ---");
+        String[] bogieIds = {"BG101", "BG103", "BG105", "BG102", "BG104"};
+        System.out.println("Unsorted Bogie IDs Array: " + Arrays.toString(bogieIds));
+        
+        // Precondition: Sort the array first
+        Arrays.sort(bogieIds);
+        System.out.println("Sorted Bogie IDs Array: " + Arrays.toString(bogieIds));
+        
+        // Test search 1: Present element
+        String searchKey1 = "BG104";
+        int index1 = binarySearch(bogieIds, searchKey1);
+        if (index1 != -1) {
+            System.out.println("Search Key '" + searchKey1 + "' found at index " + index1 + ".");
+        } else {
+            System.out.println("Search Key '" + searchKey1 + "' not found.");
+        }
+        
+        // Test search 2: Absent element
+        String searchKey2 = "BG109";
+        int index2 = binarySearch(bogieIds, searchKey2);
+        if (index2 != -1) {
+            System.out.println("Search Key '" + searchKey2 + "' found at index " + index2 + ".");
+        } else {
+            System.out.println("Search Key '" + searchKey2 + "' not found.");
+        }
+    }
+    
+    private static int binarySearch(String[] array, String key) {
+        int low = 0;
+        int high = array.length - 1;
+        
+        while (low <= high) {
+            int mid = (low + high) / 2; // Midpoint index
+            int cmp = key.compareTo(array[mid]);
+            
+            if (cmp == 0) {
+                return mid; // Match found
+            } else if (cmp < 0) {
+                high = mid - 1; // Search left half
+            } else {
+                low = mid + 1; // Search right half
+            }
+        }
+        return -1; // Range exhausted, not found
     }
 }
