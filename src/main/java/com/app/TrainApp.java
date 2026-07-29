@@ -1,7 +1,9 @@
 package com.app;
 
+import com.app.exception.InvalidCapacityException;
 import com.app.model.Bogie;
 import com.app.model.GoodsBogie;
+import com.app.model.PassengerBogie;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -58,6 +60,9 @@ public class TrainApp {
 
         // UC13: Performance Comparison (Loops vs Streams)
         runUC13();
+
+        // UC14: Handle Invalid Bogie Capacity (Custom Exception)
+        runUC14();
     }
 
     public static void runUC1() {
@@ -335,5 +340,32 @@ public class TrainApp {
         System.out.println("Stream-Based Filter Duration: " + durationStream + " ns (" + (durationStream / 1_000_000.0) + " ms)");
         System.out.println("Filtered Count: " + loopFiltered.size() + " (Streams: " + streamFiltered.size() + ")");
         System.out.println("Benchmarking complete.");
+    }
+
+    public static void runUC14() {
+        System.out.println("\n--- UC14: Handle Invalid Bogie Capacity (Custom Exception) ---");
+        List<PassengerBogie> consist = new ArrayList<>();
+        
+        // 1. Create a valid Passenger Bogie
+        try {
+            System.out.println("Creating valid Passenger Bogie with capacity 72...");
+            PassengerBogie pb1 = new PassengerBogie("PB101", "Sleeper", "Passenger", 72);
+            consist.add(pb1);
+            System.out.println("Successfully added: " + pb1);
+        } catch (InvalidCapacityException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+        
+        // 2. Create an invalid Passenger Bogie (capacity <= 0)
+        try {
+            System.out.println("Creating invalid Passenger Bogie with capacity -10...");
+            PassengerBogie pb2 = new PassengerBogie("PB102", "AC Chair", "Passenger", -10);
+            consist.add(pb2);
+            System.out.println("Successfully added: " + pb2);
+        } catch (InvalidCapacityException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+        
+        System.out.println("Consist Bogie list after exception validation: " + consist);
     }
 }
