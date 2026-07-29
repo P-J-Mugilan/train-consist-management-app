@@ -80,6 +80,9 @@ public class TrainApp {
 
         // UC19: Binary Search for Bogie ID (Optimized Searching)
         runUC19();
+
+        // UC20: Exception Handling During Search Operations
+        runUC20();
     }
 
     public static void runUC1() {
@@ -527,5 +530,32 @@ public class TrainApp {
             }
         }
         return -1; // Range exhausted, not found
+    }
+
+    public static void runUC20() {
+        System.out.println("\n--- UC20: Exception Handling During Search Operations ---");
+        
+        // Create an empty list of bogie IDs
+        List<String> emptyBogieIds = new ArrayList<>();
+        System.out.println("Empty Bogies List: " + emptyBogieIds);
+        
+        // Attempt search on empty collection
+        try {
+            System.out.println("Attempting search on empty list...");
+            searchInList(emptyBogieIds, "BG101");
+            System.out.println("Search succeeded.");
+        } catch (IllegalStateException e) {
+            System.out.println("Validation Exception caught: " + e.getMessage());
+        }
+        
+        System.out.println("Application continues executing safely after defensive empty checking.");
+    }
+    
+    private static int searchInList(List<String> list, String key) {
+        // Defensive check: Throw exception if empty
+        if (list == null || list.isEmpty()) {
+            throw new IllegalStateException("Cannot perform search operation: The train consist has no bogies loaded.");
+        }
+        return list.indexOf(key);
     }
 }
