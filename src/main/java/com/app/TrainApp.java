@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TrainApp {
@@ -46,6 +48,9 @@ public class TrainApp {
 
         // UC10: Count Total Seats in Train (reduce)
         runUC10();
+
+        // UC11: Validate Train ID & Cargo Codes (Regex)
+        runUC11();
     }
 
     public static void runUC1() {
@@ -227,5 +232,32 @@ public class TrainApp {
                 .reduce(0, Integer::sum);
         
         System.out.println("Total seating capacity calculated via reduction: " + totalSeats);
+    }
+
+    public static void runUC11() {
+        System.out.println("\n--- UC11: Validate Train ID & Cargo Codes (Regex) ---");
+        
+        // RegEx patterns
+        String trainIdRegex = "TRN-\\d{4}";
+        String cargoCodeRegex = "PET-[A-Z]{2}";
+        
+        Pattern trainIdPattern = Pattern.compile(trainIdRegex);
+        Pattern cargoCodePattern = Pattern.compile(cargoCodeRegex);
+        
+        // Test data
+        String[] testTrainIds = {"TRN-1234", "TRN-9999", "TRN-12A4", "TRAIN-1234", "TRN-123"};
+        String[] testCargoCodes = {"PET-AB", "PET-ZX", "PET-12", "CARGO-AB", "PET-A"};
+        
+        System.out.println("Enforcing Train ID Pattern: " + trainIdRegex);
+        for (String id : testTrainIds) {
+            Matcher m = trainIdPattern.matcher(id);
+            System.out.println("Train ID: '" + id + "' | Valid: " + m.matches());
+        }
+        
+        System.out.println("\nEnforcing Cargo Code Pattern: " + cargoCodeRegex);
+        for (String code : testCargoCodes) {
+            Matcher m = cargoCodePattern.matcher(code);
+            System.out.println("Cargo Code: '" + code + "' | Valid: " + m.matches());
+        }
     }
 }
