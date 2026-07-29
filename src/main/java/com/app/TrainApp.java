@@ -1,6 +1,8 @@
 package com.app;
 
+import com.app.model.Bogie;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -31,6 +33,9 @@ public class TrainApp {
 
         // UC6: Map Bogie to Capacity (HashMap)
         runUC6();
+
+        // UC7: Sort Bogies by Capacity (Comparator)
+        runUC7();
     }
 
     public static void runUC1() {
@@ -142,5 +147,20 @@ public class TrainApp {
         for (Map.Entry<String, Integer> entry : capacityMap.entrySet()) {
             System.out.println("Bogie Name: " + entry.getKey() + " | Capacity: " + entry.getValue());
         }
+    }
+
+    public static void runUC7() {
+        System.out.println("\n--- UC7: Sort Bogies by Capacity (Comparator) ---");
+        List<Bogie> passengerBogies = new ArrayList<>();
+        passengerBogies.add(new Bogie("BG101", "Sleeper", "Passenger", 72));
+        passengerBogies.add(new Bogie("BG102", "AC Chair", "Passenger", 56));
+        passengerBogies.add(new Bogie("BG103", "First Class", "Passenger", 24));
+        
+        System.out.println("Before Sorting: " + passengerBogies);
+        
+        // Sort by capacity using Comparator
+        passengerBogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+        
+        System.out.println("After Sorting by Capacity (Ascending): " + passengerBogies);
     }
 }
