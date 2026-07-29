@@ -1,10 +1,12 @@
 package com.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class TrainApp {
@@ -26,6 +28,9 @@ public class TrainApp {
 
         // UC5: Preserve Insertion Order of Bogies (LinkedHashSet)
         runUC5();
+
+        // UC6: Map Bogie to Capacity (HashMap)
+        runUC6();
     }
 
     public static void runUC1() {
@@ -120,5 +125,22 @@ public class TrainApp {
         // Display final formation order
         System.out.println("Final ordered train consist (LinkedHashSet): " + formation);
         System.out.println("Observe that order is preserved and duplicates are prevented.");
+    }
+
+    public static void runUC6() {
+        System.out.println("\n--- UC6: Map Bogie to Capacity (HashMap) ---");
+        Map<String, Integer> capacityMap = new HashMap<>();
+        
+        // Insert capacity values
+        capacityMap.put("Sleeper", 72);
+        capacityMap.put("AC Chair", 56);
+        capacityMap.put("First Class", 24);
+        
+        System.out.println("Bogie-Capacity Mappings stored in HashMap.");
+        
+        // Iterate over the map using entrySet()
+        for (Map.Entry<String, Integer> entry : capacityMap.entrySet()) {
+            System.out.println("Bogie Name: " + entry.getKey() + " | Capacity: " + entry.getValue());
+        }
     }
 }
