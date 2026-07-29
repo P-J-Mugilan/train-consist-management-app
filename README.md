@@ -82,3 +82,7 @@ Execute the JUnit 5 test suite validating all use cases:
 ```bash
 mvn test
 ```
+
+---
+*Developed solely by P J Mugilan.*
+
