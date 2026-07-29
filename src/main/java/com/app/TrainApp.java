@@ -71,6 +71,9 @@ public class TrainApp {
 
         // UC16: Sort Passenger Bogies by Capacity (Bubble Sort)
         runUC16();
+
+        // UC17: Sort Bogie Names Using Arrays.sort()
+        runUC17();
     }
 
     public static void runUC1() {
@@ -427,5 +430,16 @@ public class TrainApp {
         }
         
         System.out.println("Sorted Capacities (Bubble Sort): " + Arrays.toString(capacities));
+    }
+
+    public static void runUC17() {
+        System.out.println("\n--- UC17: Sort Bogie Names Using Arrays.sort() ---");
+        String[] bogieTypes = {"Sleeper", "AC Chair", "First Class", "Pantry Car", "Engine", "Guard"};
+        System.out.println("Unsorted Bogie Types Array: " + Arrays.toString(bogieTypes));
+        
+        // Sort using Arrays.sort()
+        Arrays.sort(bogieTypes);
+        
+        System.out.println("Sorted Bogie Types Array (Alphabetical): " + Arrays.toString(bogieTypes));
     }
 }
