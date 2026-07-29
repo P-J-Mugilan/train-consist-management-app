@@ -74,6 +74,9 @@ public class TrainApp {
 
         // UC17: Sort Bogie Names Using Arrays.sort()
         runUC17();
+
+        // UC18: Linear Search for Bogie ID (Array-Based Searching)
+        runUC18();
     }
 
     public static void runUC1() {
@@ -441,5 +444,38 @@ public class TrainApp {
         Arrays.sort(bogieTypes);
         
         System.out.println("Sorted Bogie Types Array (Alphabetical): " + Arrays.toString(bogieTypes));
+    }
+
+    public static void runUC18() {
+        System.out.println("\n--- UC18: Linear Search for Bogie ID (Array-Based Searching) ---");
+        String[] bogieIds = {"BG101", "BG103", "BG105", "BG102", "BG104"};
+        System.out.println("Bogie IDs Array: " + Arrays.toString(bogieIds));
+        
+        // Test search 1: Present element
+        String searchKey1 = "BG105";
+        int index1 = linearSearch(bogieIds, searchKey1);
+        if (index1 != -1) {
+            System.out.println("Search Key '" + searchKey1 + "' found at index " + index1 + ".");
+        } else {
+            System.out.println("Search Key '" + searchKey1 + "' not found.");
+        }
+        
+        // Test search 2: Absent element
+        String searchKey2 = "BG109";
+        int index2 = linearSearch(bogieIds, searchKey2);
+        if (index2 != -1) {
+            System.out.println("Search Key '" + searchKey2 + "' found at index " + index2 + ".");
+        } else {
+            System.out.println("Search Key '" + searchKey2 + "' not found.");
+        }
+    }
+    
+    private static int linearSearch(String[] array, String key) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equals(key)) {
+                return i; // Found - stop search and return index
+            }
+        }
+        return -1; // Not found
     }
 }
