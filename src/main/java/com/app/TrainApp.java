@@ -43,6 +43,9 @@ public class TrainApp {
 
         // UC9: Group Bogies by Type (Collectors.groupingBy)
         runUC9();
+
+        // UC10: Count Total Seats in Train (reduce)
+        runUC10();
     }
 
     public static void runUC1() {
@@ -207,5 +210,22 @@ public class TrainApp {
         for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
             System.out.println("Type: " + entry.getKey() + " | Bogies: " + entry.getValue());
         }
+    }
+
+    public static void runUC10() {
+        System.out.println("\n--- UC10: Count Total Seats in Train (reduce) ---");
+        List<Bogie> passengerBogies = new ArrayList<>();
+        passengerBogies.add(new Bogie("BG101", "Sleeper", "Passenger", 72));
+        passengerBogies.add(new Bogie("BG102", "AC Chair", "Passenger", 56));
+        passengerBogies.add(new Bogie("BG103", "First Class", "Passenger", 24));
+        
+        System.out.println("Passenger Bogies: " + passengerBogies);
+        
+        // Calculate total capacity using map() and reduce()
+        int totalSeats = passengerBogies.stream()
+                .map(Bogie::getCapacity)
+                .reduce(0, Integer::sum);
+        
+        System.out.println("Total seating capacity calculated via reduction: " + totalSeats);
     }
 }
