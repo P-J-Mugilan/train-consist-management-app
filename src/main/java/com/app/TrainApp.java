@@ -2,6 +2,7 @@ package com.app;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,9 @@ public class TrainApp {
 
         // UC3: Track Unique Bogie IDs (Set – HashSet)
         runUC3();
+
+        // UC4: Maintain Ordered Bogie IDs (LinkedList)
+        runUC4();
     }
 
     public static void runUC1() {
@@ -66,5 +70,30 @@ public class TrainApp {
         // Print final set
         System.out.println("Final Bogie IDs Set (HashSet): " + bogieIds);
         System.out.println("Observe that duplicates are automatically removed.");
+    }
+
+    public static void runUC4() {
+        System.out.println("\n--- UC4: Maintain Ordered Bogie IDs (LinkedList) ---");
+        LinkedList<String> consist = new LinkedList<>();
+        
+        // Add bogies
+        consist.add("Engine");
+        consist.add("Sleeper");
+        consist.add("AC");
+        consist.add("Cargo");
+        consist.add("Guard");
+        System.out.println("Initial consist: " + consist);
+        
+        // Insert Pantry Car at position 2 (index 2)
+        consist.add(2, "Pantry Car");
+        System.out.println("After inserting Pantry Car at position 2: " + consist);
+        
+        // Remove the first and last bogie
+        String first = consist.removeFirst();
+        String last = consist.removeLast();
+        System.out.println("Removed first: " + first + ", Removed last: " + last);
+        
+        // Display final ordered train consist
+        System.out.println("Final ordered train consist (LinkedList): " + consist);
     }
 }
