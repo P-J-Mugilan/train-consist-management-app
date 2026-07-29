@@ -1,6 +1,7 @@
 package com.app;
 
 import com.app.model.Bogie;
+import com.app.model.GoodsBogie;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -51,6 +52,9 @@ public class TrainApp {
 
         // UC11: Validate Train ID & Cargo Codes (Regex)
         runUC11();
+
+        // UC12: Safety Compliance Check for Goods Bogies
+        runUC12();
     }
 
     public static void runUC1() {
@@ -259,5 +263,39 @@ public class TrainApp {
             Matcher m = cargoCodePattern.matcher(code);
             System.out.println("Cargo Code: '" + code + "' | Valid: " + m.matches());
         }
+    }
+
+    public static void runUC12() {
+        System.out.println("\n--- UC12: Safety Compliance Check for Goods Bogies ---");
+        
+        // Compliant Train consist
+        List<GoodsBogie> compliantTrain = new ArrayList<>();
+        compliantTrain.add(new GoodsBogie("GB101", "Oil Tanker", "Cylindrical", 100, "Petroleum"));
+        compliantTrain.add(new GoodsBogie("GB102", "Coal Container", "Rectangular", 120, "Coal"));
+        compliantTrain.add(new GoodsBogie("GB103", "Grain Container", "Rectangular", 80, "Wheat"));
+        
+        // Non-compliant Train consist (Cylindrical carrying Coal)
+        List<GoodsBogie> nonCompliantTrain = new ArrayList<>();
+        nonCompliantTrain.add(new GoodsBogie("GB201", "Oil Tanker", "Cylindrical", 100, "Petroleum"));
+        nonCompliantTrain.add(new GoodsBogie("GB202", "Coal Tanker", "Cylindrical", 120, "Coal")); // VIOLATION!
+        nonCompliantTrain.add(new GoodsBogie("GB203", "Grain Container", "Rectangular", 80, "Wheat"));
+        
+        System.out.println("Testing Compliant Train goods consist: " + compliantTrain);
+        boolean isCompliant1 = checkSafety(compliantTrain);
+        System.out.println("Is Compliant Train safe? " + isCompliant1);
+        
+        System.out.println("\nTesting Non-Compliant Train goods consist: " + nonCompliantTrain);
+        boolean isCompliant2 = checkSafety(nonCompliantTrain);
+        System.out.println("Is Non-Compliant Train safe? " + isCompliant2);
+    }
+    
+    private static boolean checkSafety(List<GoodsBogie> train) {
+        // Cylindrical -> only Petroleum allowed.
+        return train.stream().allMatch(b -> {
+            if (b.getType().equalsIgnoreCase("Cylindrical")) {
+                return b.getCargoType().equalsIgnoreCase("Petroleum");
+            }
+            return true;
+        });
     }
 }
